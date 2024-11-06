@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
@@ -24,6 +27,31 @@ public class CourseRepositoryTest {
     @BeforeEach
     void setUp() {
         courseRepository = new JdbcCourseRepository(jdbcTemplate);
+    }
+
+    @Test
+    public void showTables() {
+        String sql = "SHOW TABLES";
+        List<Map<String, Object>> tables = jdbcTemplate.queryForList(sql);
+        tables.forEach(row -> System.out.println(row));
+    }
+
+    @Test
+    public void showAllTablesData() {
+        // Step 1: Get the list of all tables
+        String showTablesSql = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'PUBLIC'";
+        List<String> tableNames = jdbcTemplate.queryForList(showTablesSql, String.class);
+
+        // Step 2: For each table, run SELECT * and print the results
+        tableNames.forEach(tableName -> {
+            System.out.println("Contents of table: " + tableName);
+
+            String selectSql = "SELECT * FROM " + tableName;
+            List<Map<String, Object>> rows = jdbcTemplate.queryForList(selectSql);
+
+            rows.forEach(row -> System.out.println(row));
+            System.out.println("----------------------------------------------------");
+        });
     }
 
     @Test
