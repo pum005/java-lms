@@ -1,9 +1,11 @@
 package nextstep.courses.domain.session;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
+@Getter
 public class SessionImage {
-
 
     public static final int MAX_IMAGE_SIZE = 1000000;
     public static final String IMAGE_SIZE_EXCEPT_MESSAGE = "이미지는 1MB 이하 이어야 합니다!";
@@ -12,6 +14,7 @@ public class SessionImage {
     public static final int MIN_HEIGHT = 200;
     public static final double WIDTH_HEIGHT_RATE = 1.5;
 
+    private final Long id;
     private final int size;
     private final SessionImageType type;
     private final int width;
@@ -19,16 +22,21 @@ public class SessionImage {
 
 
     public SessionImage(int size, String type, int width, int height) {
-        this(size, SessionImageType.of(type), width, height);
+        this(0L, size, SessionImageType.of(type), width, height);
     }
 
-    public SessionImage(int size, SessionImageType type, int width, int height) {
+    public SessionImage(Long id, int size, String type, int width, int height) {
+        this(id, size, SessionImageType.of(type), width, height);
+    }
+
+    public SessionImage(Long id, int size, SessionImageType type, int width, int height) {
         if (size > MAX_IMAGE_SIZE) {
             throw new IllegalArgumentException(IMAGE_SIZE_EXCEPT_MESSAGE);
         }
         if (width < MIN_WIDTH || height < MIN_HEIGHT || (double) width / height != WIDTH_HEIGHT_RATE) {
             throw new IllegalArgumentException(WIDTH_HEIGHT_EXCEPT_MESSAGE);
         }
+        this.id = id;
         this.size = size;
         this.type = type;
         this.width = width;
