@@ -29,6 +29,10 @@ public class Enrollment {
         this.users.add(user);
     }
 
+    public int getCapacity() {
+        return capacity.getCapacity();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -32,6 +32,10 @@ public class SessionCapacity {
         this.capacity++;
     }
 
+    public int getCapacity() {
+        return maxCapacity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
