@@ -1,7 +1,10 @@
 package nextstep.courses.domain.session;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 
+@Getter
 public class SessionDate {
 
     private final LocalDate start;
