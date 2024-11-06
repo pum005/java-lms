@@ -48,3 +48,32 @@ create table delete_history (
     deleted_by_id bigint,
     primary key (id)
 );
+
+create table session_image (
+    id bigint not null,
+    image_size integer,
+    type varchar(50) not null,
+    width integer,
+    height integer,
+    primary key (id)
+);
+
+create table session (
+    id bigint not null,
+    session_image_id bigint,
+    session_state varchar(50) not null,
+    price bigint default 0,
+    max_capacity integer,
+    start_date timestamp not null,
+    end_date timestamp not null,
+    primary key (id),
+    FOREIGN KEY (session_image_id) REFERENCES session_image(id)
+);
+
+create table enrollment (
+    session_id bigint not null,
+    ns_user_id bigint not null,
+    PRIMARY KEY (session_id, ns_user_id),
+    FOREIGN KEY (session_id) REFERENCES session(id),
+    FOREIGN KEY (ns_user_id) REFERENCES ns_user(id)
+);
